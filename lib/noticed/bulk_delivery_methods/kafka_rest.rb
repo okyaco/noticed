@@ -7,7 +7,7 @@ module Noticed
         url = evaluate_option(:url)
         message = evaluate_option(:message)
 
-        json = { records: [{ key: message[:key], value: message[:value] }] }
+        json = { records: { key: message[:key], value: message[:value] } }
 
         post_request url, headers: evaluate_option(:headers), json: json
       end
