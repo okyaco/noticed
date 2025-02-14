@@ -4,7 +4,14 @@ module Noticed
       required_options :url, :headers, :message
 
       def deliver
-        post_request evaluate_option(:url), headers: evaluate_option(:headers), message: evaluate_option(:message)
+        url = evaluate_option(:url)
+        message = evaluate_option(:message)
+
+        json = {
+          value: message[:value]
+        }
+
+        post_request evaluate_option(:url), headers: evaluate_option(:headers), json: json
       end
     end
   end
