@@ -36,6 +36,7 @@ module Noticed
     autoload :ActionCable, "noticed/delivery_methods/action_cable"
     autoload :Email, "noticed/delivery_methods/email"
     autoload :Fcm, "noticed/delivery_methods/fcm"
+    autoload :Grab, "noticed/delivery_methods/grab"
     autoload :Ios, "noticed/delivery_methods/ios"
     autoload :MicrosoftTeams, "noticed/delivery_methods/microsoft_teams"
     autoload :Slack, "noticed/delivery_methods/slack"
