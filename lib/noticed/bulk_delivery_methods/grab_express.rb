@@ -4,7 +4,9 @@ module Noticed
       required_options :url, :headers, :json, :after_deliver
       attr_accessor :request_body, :response, :after_deliver
 
-      after_deliver :after_deliver
+      after_deliver do
+        @after_deliver.call(@response)
+      end
 
       def deliver
         @request_body = evaluate_option(:json)
