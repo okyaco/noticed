@@ -1,14 +1,14 @@
 module Noticed
   module BulkDeliveryMethods
     class GrabExpress < BulkDeliveryMethod
-      required_options :url, :headers, :json, :before_deliver, :after_deliver
-      attr_accessor :response, :before_deliver, :after_deliver
+      required_options :url, :headers, :json, :before_deliver
+      attr_accessor :response, :before_deliver
 
       before_deliver :before_deliver
 
       after_deliver do
         # Call the lambda explicitly as evaluate_option prematurely calls the lambda before the response is ready
-        @after_deliver.call(@response)
+        @after_deliver.call(@response) if @after_deliver.present?
       end
 
       def deliver
