@@ -16,7 +16,6 @@ gem "pg"
 gem "sqlite3", "~> 1.7"
 gem "standard"
 gem "webmock"
-gem "byebug"
 
 # iOS notifications
 gem "apnotic", "~> 1.7"
