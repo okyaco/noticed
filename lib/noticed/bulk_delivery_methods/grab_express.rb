@@ -18,7 +18,8 @@ module Noticed
         @after_deliver = evaluate_option(:after_deliver)
 
         # Grab uses POST HTTP method to create deliveries, and DELETE HTTP method to cancel the deliveries
-        method = evaluate_option(:method).to_s.upcase || 'POST'
+        method = evaluate_option(:method) || 'POST'
+        method = method.to_s.upcase
 
         @response = case method
                     when 'DELETE'
