@@ -12,6 +12,27 @@ module Noticed
     def post_request(url, args = {})
       args.compact!
 
+      make_request(url, args) do |uri, headers|
+        Net::HTTP::Post.new(uri.request_uri, headers)
+      end
+    end
+
+    # Helper method for making DELETE requests from delivery methods
+    #
+    # Usage:
+    #   delete_request("http://example.com", basic_auth: {user:, pass:}, headers: {})
+    #
+    def delete_request(url, args = {})
+      args.compact!
+
+      make_request(url, args) do |uri, headers|
+        Net::HTTP::Delete.new(uri.request_uri, headers)
+      end
+    end
+
+    private
+
+    def make_request(url, args)
       uri = URI(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.instance_of? URI::HTTPS
@@ -19,7 +40,7 @@ module Noticed
       headers = args.delete(:headers) || {}
       # headers["Content-Type"] = "application/json" if args.has_key?(:json) && headers["Content-Type"].blank?
 
-      request = Net::HTTP::Post.new(uri.request_uri, headers)
+      request = yield(uri, headers)
 
       if (basic_auth = args.delete(:basic_auth))
         request.basic_auth basic_auth.fetch(:user), basic_auth.fetch(:pass)
@@ -31,8 +52,7 @@ module Noticed
         request.form_data = form
       end
 
-      logger.debug("POST #{url}")
-      logger.debug(request.body)
+      logger.debug("#{request.method} #{url}")
       response = http.request(request)
       logger.debug("Response: #{response.code}: #{response.body.inspect}")
 
