@@ -3,7 +3,7 @@
 module Noticed
   module BulkDeliveryMethods
     class GrabExpress < BulkDeliveryMethod
-      required_options :url, :headers, :before_deliver
+      required_options :url, :headers
       attr_accessor :response, :before_deliver
 
       before_deliver :before_deliver
