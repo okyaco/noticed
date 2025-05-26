@@ -4,9 +4,7 @@ module Noticed
   module BulkDeliveryMethods
     class GrabExpress < BulkDeliveryMethod
       required_options :url, :headers
-      attr_accessor :response, :before_deliver
-
-      before_deliver :before_deliver
+      attr_accessor :response
 
       after_deliver do
         # Call the lambda explicitly as evaluate_option prematurely calls the lambda before the response is ready
@@ -14,7 +12,6 @@ module Noticed
       end
 
       def deliver
-        @before_deliver = evaluate_option(:before_deliver)
         @after_deliver = evaluate_option(:after_deliver)
 
         # Grab uses POST HTTP method to create deliveries, and DELETE HTTP method to cancel the deliveries
