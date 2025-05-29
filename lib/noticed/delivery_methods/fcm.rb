@@ -12,9 +12,10 @@ module Noticed
       end
 
       def send_notification(device_token)
+        payload = format_notification(device_token)
         post_request("https://fcm.googleapis.com/v1/projects/#{credentials[:project_id]}/messages:send",
-          headers: {authorization: "Bearer #{access_token}"},
-          json: format_notification(device_token))
+          headers: {authorization: "Bearer #{access_token}", "Content-Type": "application/json"},
+          json: payload)
       rescue Noticed::ResponseUnsuccessful => exception
         if exception.response.code == "404" && config[:invalid_token]
           notification.instance_exec(device_token, &config[:invalid_token])
