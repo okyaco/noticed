@@ -12,6 +12,8 @@ module Noticed
       end
 
       def send_notification(device_token)
+        # We need to add `Content-Type: application/json` because without it, the payload gets double-encoded as a string (with extra \ escapes), causing FCM to reject it with Invalid JSON payload errors.
+        # Root cause: The [original gem](https://github.com/excid3/noticed/blob/d63ddeef0e6561e1c2eb39581f384cea321db415/lib/noticed/api_client.rb#L20) still has "Content-Type", while in our [forked gem](https://github.com/okyaco/noticed/blob/0b12663ab73454461affcff993c43b58c905df55/lib/noticed/api_client.rb#L20C6-L20C111) we commented it out.
         post_request("https://fcm.googleapis.com/v1/projects/#{credentials[:project_id]}/messages:send",
           headers: {authorization: "Bearer #{access_token}", "Content-Type": "application/json"},
           json: format_notification(device_token))
