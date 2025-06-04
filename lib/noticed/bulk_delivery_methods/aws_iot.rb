@@ -7,7 +7,7 @@ module Noticed
 
       def deliver
         endpoint = evaluate_option(:url)
-        credentials = evaluate_option(:credentials).with_indifferent_access
+        credentials = evaluate_option(:credentials)
         message  = evaluate_option(:message)
 
         client = Aws::IoTDataPlane::Client.new(
