@@ -6,12 +6,12 @@ module Noticed
       required_options :url, :credentials, :message
 
       def deliver
-        endpoint = evaluate_option(:url)
+        url = evaluate_option(:url)
         credentials = evaluate_option(:credentials)
         message  = evaluate_option(:message)
 
         client = Aws::IoTDataPlane::Client.new(
-          endpoint: endpoint,
+          endpoint: url,
           region: credentials[:region],
           credentials: Aws::Credentials.new(credentials[:access_key_id], credentials[:secret_access_key])
         )
