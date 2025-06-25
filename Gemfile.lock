@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     noticed (2.4.3)
-      aws-sdk-iotdataplane (~> 1.75)
       rails (>= 6.1.0)
 
 GEM
@@ -297,6 +296,7 @@ PLATFORMS
 DEPENDENCIES
   apnotic (~> 1.7)
   appraisal
+  aws-sdk-iotdataplane (~> 1.75)
   googleauth (~> 1.1)
   noticed!
   pg
