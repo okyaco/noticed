@@ -3,31 +3,30 @@ require 'aws-sdk-iotdataplane'
 module Noticed
   module BulkDeliveryMethods
     class AwsIot < BulkDeliveryMethod
-      required_options :url, :credentials, :message
+      required_options :url, :region, :access_key_id, :secret_access_key, :topic, :payload, :qos, :retain
 
       def deliver
         url = evaluate_option(:url)
-        credentials = evaluate_option(:credentials)
-        message  = evaluate_option(:message)
+        region = evaluate_option(:region)
+        access_key_id = evaluate_option(:access_key_id)
+        secret_access_key = evaluate_option(:secret_access_key)
+        topic = evaluate_option(:topic)
+        payload = evaluate_option(:payload)
+        qos = evaluate_option(:qos)
+        retain = evaluate_option(:retain)
 
         client = Aws::IoTDataPlane::Client.new(
           endpoint: url,
-          region: credentials[:region],
-          credentials: Aws::Credentials.new(credentials[:access_key_id], credentials[:secret_access_key])
+          region: region,
+          credentials: Aws::Credentials.new(access_key_id, secret_access_key)
         )
 
         client.publish(
-          topic: message.fetch(:topic),
-          payload: serialise_payload(message.fetch(:payload)),
-          qos: message.fetch(:qos, 0),
-          retain: message.fetch(:retain, false)
+          topic: topic,
+          payload: payload,
+          qos: qos,
+          retain: retain
         )
-      end
-
-      private
-
-      def serialise_payload(payload)
-        payload.is_a?(String) ? payload : payload.to_json
       end
     end
   end
