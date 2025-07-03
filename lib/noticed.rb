@@ -25,6 +25,7 @@ module Noticed
     autoload :ConfluentRestApi, "noticed/bulk_delivery_methods/confluent_rest_api"
     autoload :Discord, "noticed/bulk_delivery_methods/discord"
     autoload :KafkaRestProxy, "noticed/bulk_delivery_methods/kafka_rest_proxy"
+    autoload :GrabExpress, "noticed/bulk_delivery_methods/grab_express"
     autoload :Slack, "noticed/bulk_delivery_methods/slack"
     autoload :Test, "noticed/bulk_delivery_methods/test"
     autoload :Webhook, "noticed/bulk_delivery_methods/webhook"
